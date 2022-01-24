@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import FileBase from "react-file-base64";
+import { createPost } from "../../actions/posts";
 import { TextField, Typography } from "@mui/material";
 import { FormContainer, FormStyled, FileInputStyled, SubmitButton } from "./Form.styles";
 
 export default function Form() {
+  const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -11,7 +14,10 @@ export default function Form() {
     message: "",
     selectedFile: "",
   });
-  const submitHandler = () => {};
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(createPost(postData));
+  };
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
