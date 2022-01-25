@@ -1,11 +1,14 @@
 import React from "react";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../../actions/posts";
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 export default function Post({ post, setCurrentId }) {
+  const dispatch = useDispatch();
   return (
     <Card>
       <CardMedia component="img" src={post.selectedFile} title={post.title} />
@@ -36,7 +39,7 @@ export default function Post({ post, setCurrentId }) {
           <ThumbUpIcon />
           Like {post.likeCount}
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
           <DeleteIcon />
           Delete
         </Button>
