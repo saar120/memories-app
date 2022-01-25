@@ -28,6 +28,7 @@ export default function Form({ currentId, setCurrentId }) {
     } else {
       dispatch(createPost(postData));
     }
+    clearHandler();
   };
 
   const inputChangeHandler = (e) => {
@@ -35,12 +36,15 @@ export default function Form({ currentId, setCurrentId }) {
     setPostData({ ...postData, [name]: value });
   };
 
-  const clearHandler = () => {};
+  const clearHandler = () => {
+    setCurrentId(null);
+    setPostData({ creator: "", title: "", tags: "", message: "", selectedFile: "" });
+  };
 
   return (
     <FormContainer>
       <FormStyled autoComplete="off" noValidate onSubmit={submitHandler}>
-        <Typography variant="h6">Create a Post</Typography>
+        <Typography variant="h6">{currentId ? "Edit" : "Create"} a Post</Typography>
         <TextField
           name="creator"
           variant="outlined"

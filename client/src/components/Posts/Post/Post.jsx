@@ -23,6 +23,9 @@ export default function Post({ post, setCurrentId }) {
           {post.tags.map((tag) => `#${tag}`)}
         </Typography>
       </div>
+      <Typography variant="h5" gutterBottom>
+        {post.title}
+      </Typography>
       <CardContent>
         <Typography variant="h5" gutterBottom>
           {post.message}
