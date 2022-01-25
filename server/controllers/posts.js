@@ -1,3 +1,4 @@
+import e from "express";
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
@@ -46,5 +47,35 @@ export const deletePost = async (req, res) => {
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
     res.status(err.code || 500).json({ message: err.message });
+  }
+};
+
+export const likePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.userId) {
+      throw new Error({ message: "Unauthenticated", code: 403 });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      throw new Error({ message: "Invalid Id", code: 404 });
+    }
+    const post = await PostMessage.findById(id);
+
+    const index = post.likes.findIndex((id) => id === String(req.userId));
+
+    if (index === -1) {
+      // if user didnt like it yet - add his like to the likes array
+      post.likes.push(req.userId);
+    } else {
+      // if user did like - remove his like
+      post.likes.filter((id) => id !== String(req.userId));
+    }
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true, runValidators: true });
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(error.code || 500).json({ message: error.message });
   }
 };
