@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-export default function Post({ post }) {
+export default function Post({ post, setCurrentId }) {
   return (
     <Card>
       <CardMedia component="img" src={post.selectedFile} title={post.title} />
@@ -14,7 +14,7 @@ export default function Post({ post }) {
         <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
       </div>
       <div>
-        <Button style={{ color: "white" }} size="small">
+        <Button style={{ color: "white" }} size="small" onClick={() => setCurrentId(post._id)}>
           <MoreHorizIcon style={{ color: "black" }} />
         </Button>
       </div>
