@@ -35,3 +35,16 @@ export const updatePost = async (req, res) => {
     res.status(err.code || 500).json({ message: err.message });
   }
 };
+
+export const deletePost = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      throw new Error({ message: "Invalid Id", code: 404 });
+    }
+    await PostMessage.findByIdAndRemove(_id);
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (err) {
+    res.status(err.code || 500).json({ message: err.message });
+  }
+};
