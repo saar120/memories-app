@@ -19,3 +19,18 @@ export const createPost = async (req, res) => {
     res.status(409).json({ message: err.message });
   }
 };
+
+export const updatePost = async (req, res) => {
+  try {
+    const { id: _id } = req.params;
+    const post = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error({ message: "Invalid Id", code: 404 });
+    }
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true, runValidators: true });
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(err.code || 500).json({ message: err.message });
+  }
+};
