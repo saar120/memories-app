@@ -4,10 +4,15 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import postsRoutes from "./routes/posts.js";
+import path from "path";
+
+const publicPath = path.join(__dirname, "../client/build");
 
 dotenv.config();
 
 const app = express();
+
+app.use(express.static(publicPath));
 
 app.use(bodyParser.json({ extended: true, limit: "30mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "30mb" }));
